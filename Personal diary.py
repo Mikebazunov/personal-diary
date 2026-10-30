@@ -50,7 +50,7 @@ class Write:
 
     def write(self):
         with open(self.file, "a", encoding="utf-8") as file:
-            file.write(f"{self.message}")
+            file.write(self.message + os.linesep)
 class Read:
     def __init__(self, file):
         self.file = file
@@ -58,8 +58,13 @@ class Read:
     def read(self):
         with open(self.file, "r", encoding="utf-8") as file:
             content = file.readlines()
-            for line in content:
-                print(line.center(get_width()) + "\n")
+            if len(content) == 0:
+                print("The diary is still empty!".center(get_width()))
+            else:
+                print("Here is your diary filled with your memories!".center(get_width()))
+                print("")
+                for line in content:
+                    print(line.rstrip("\r\n").center(get_width()) + "\n")
 
 
 def tablo():
@@ -98,7 +103,6 @@ def game():
             clear()
             tablo()
             diary = Read(file.get_pathway())
-            print("Here is your diary filled with your memories!".center(get_width()))
             diary.read()
             line()
             wait(5)
