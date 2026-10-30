@@ -1,12 +1,24 @@
-import random
+
+
+
+
+
+
+
+
+
 import shutil
 import os
 import time
+import sys
+
+timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+path = os.path.dirname(__file__) + os.sep
 
 def wait(wait = 2):
     time.sleep(wait)
 
-def clear_screen():
+def clear():
     os.system("cls")
 
 def get_width():
@@ -14,39 +26,38 @@ def get_width():
 
 def line():
     print("=" * get_width())
+
+
+class Writing:
+    def __init__(self, message):
+        self.message = message
+
+    def get_message(self):
+        return timestamp + self.message
+
+class File:
+    def __init__(self, file):
+        self.file = file
+
+    def get_pathway(self):
+        return path + self.file
+
+class Actions:
+    def __init__(self, file, message):
+        self.file = file
+        self.message = message
+
+    def read(self):
+        with open(self.file, "r", encoding="utf-8") as file:
+            content = file.read()
+            print(content)
+
+    def write(self):
+        with open(self.file, "a", encoding="utf-8") as file:
+            file.write(self.message)
+
+           
+        
+
+        
     
-def generate_number():
-    return random.randint(1, 10)
-
-def tablo(attempts):
-    line()
-    print("Guess the number from 1 to 10!".center(get_width()))
-    line()
-    print(f"Attempts: {attempts}".center(get_width()))
-    line()
-
-def game(number, attempts):
-    tablo(attempts)
-    guess = int(input("Enter number: ".center(get_width()).rstrip() + " "))
-
-    while attempts != 0:
-        if guess == number:
-            print(f"You win! The answer was {number}".center(get_width()))
-            line()
-            wait(5)
-            break
-        else:
-            attempts -= 1
-            print(f"Wrong! You have only {attempts} attempts left".center(get_width()))
-            wait()
-            if guess > number:
-                print(f"Your guess - {guess} is bigger than the right answer".center(get_width()))
-            else:
-                print(f"Your guess - {guess} is smaller than the right answer".center(get_width()))
-
-            wait()
-            clear_screen()
-            tablo(attempts)
-            guess = int(input("Enter number again: ".center(get_width()).rstrip() + " "))
-
-game(generate_number(), 5)
